@@ -15,10 +15,6 @@ class _FlashState extends State<Flash> {
     bool passedApiChecked = await Api.getApiVerstion();
     bool passedTagChecked = await Api.getAllTags();
     bool passedCatChecked = await Api.getAllCats();
-    print(passedCatChecked);
-    print(passedTagChecked);
-    print('Can go');
-    print(passedApiChecked);
     if(passedApiChecked && passedTagChecked && passedCatChecked) {
       Navigator.pushReplacementNamed(context, '/home');
     } else {

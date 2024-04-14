@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_view/flutter_swiper_view.dart';
 import 'package:foodmonkey_project/models/Cat.dart';
+import 'package:foodmonkey_project/pages/ProductPage.dart';
 import 'package:foodmonkey_project/utils/Constants.dart';
 
 class Home extends StatefulWidget {
@@ -26,9 +27,17 @@ class _HomeState extends State<Home> {
                 itemCount: Constants.tags.length,
                 itemBuilder: (context, index) {
                  final url = "http://localhost:3000/"+Constants.tags[index].image;
-                  return Image.network(
-                    url?? "",
-                    fit: BoxFit.contain,
+                  return GestureDetector(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: ((context) => ProductPage(
+                        loadName:  Constants.tags[index].name,
+                        type: 'Tags',
+                      ))));
+                    },
+                    child: Image.network(
+                      url?? "",
+                      fit: BoxFit.contain,
+                    ),
                   );
                 },
                 // autoplay: true,
@@ -50,7 +59,7 @@ class _HomeState extends State<Home> {
                   mainAxisSpacing: 5,
                   crossAxisSpacing: 5
                 ),
-                itemBuilder: (context, index) => _buildCategoryCard(Constants.cats[index]),
+                itemBuilder: (context, index) => _buildCategoryCard(context,Constants.cats[index]),
                 ),
              )
           ],
@@ -74,17 +83,22 @@ Widget _buildTitleTaskbar(text) {
   );
 }
 
-Widget _buildCategoryCard(Cat cat) {
+Widget _buildCategoryCard(BuildContext context, Cat cat) {
   final url = "http://localhost:3000/"+cat.image;
-  return Card(
-    child: Column(
-      children: [
-        Text(cat.name),
-        SizedBox(height: 10,),
-        Container(
-          height: 90,
-          child: Image.network(url)),
-      ],
+  return GestureDetector(
+    onTap: () {
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductPage(loadName: cat.name,type: 'Category',)));
+    },
+    child: Card(
+      child: Column(
+        children: [
+          Text(cat.name),
+          SizedBox(height: 10,),
+          Container(
+            height: 90,
+            child: Image.network(url)),
+        ],
+      ),
     ),
   );
 }

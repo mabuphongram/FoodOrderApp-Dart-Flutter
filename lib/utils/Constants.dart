@@ -14,9 +14,12 @@ class Constants {
 
   static const String API_VERSION = "1.0";
 
-  static const String BASE_URL = "http://192.168.1.5:3000";
+  static const String BASE_URL = "http://192.168.1.4:3000";
   static const String API_URL = "$BASE_URL/api";
 
+  static String getImageLink(image) {
+    return image;
+  }
   static List<Tag> tags = [];
   static List<Cat> cats = [];
 }

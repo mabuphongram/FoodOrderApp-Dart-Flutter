@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:foodmonkey_project/models/Cat.dart';
 import 'package:foodmonkey_project/models/Tag.dart';
+import 'package:foodmonkey_project/models/product.dart';
 import 'package:foodmonkey_project/utils/Constants.dart';
 import 'package:http/http.dart' as http;
 
@@ -10,7 +11,8 @@ class Api {
     Uri uri = Uri.parse("${Constants.API_URL}/appversion");
     var resStr = await http.get(uri);
     var response = jsonDecode(resStr.body);
-    return double.parse(response["result"]) == double.parse(Constants.API_VERSION);
+    return double.parse(response["result"]) ==
+        double.parse(Constants.API_VERSION);
   }
 
   static Future<bool> getAllTags() async {
@@ -31,5 +33,17 @@ class Api {
       Constants.cats = cList.map((cat) => Cat.fromJson(cat)).toList();
     }
     return true;
+  }
+
+  static Future<List<Product>> getPaginatedProducts(pageNo) async {
+    Uri uri = Uri.parse("${Constants.API_URL}/products/${pageNo}");
+    var resStr = await http.get(uri);
+    var response = json.decode(resStr.body);
+    List<Product> products = [];
+    if (response['con']) {
+      var pList = response['result'] as List;
+      products = pList.map((product) => Product.fromJson(product)).toList();
+    }
+    return products;
   }
 }
