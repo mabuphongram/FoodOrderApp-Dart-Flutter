@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodmonkey_project/models/product.dart';
+import 'package:foodmonkey_project/pages/Preview.dart';
 import 'package:foodmonkey_project/utils/Api.dart';
 import 'package:foodmonkey_project/utils/Constants.dart';
 
@@ -23,7 +24,7 @@ class _ProductPageState extends State<ProductPage> {
     setState(() {
       isLoading = true;
     });
-    await Future.delayed(Duration(seconds: 5));
+    await Future.delayed(Duration(seconds: 1));
     List<Product> pd = await Api.getPaginatedProducts(pageNo);
     print(await Api.getPaginatedProducts(0));
     setState(() {
@@ -76,7 +77,6 @@ class _ProductPageState extends State<ProductPage> {
     var url = product.images?[0];
     url =
         url.replaceAll('http://192.168.8.104:3000/', 'http://localhost:3000/');
-    print(url);
     return Column(
       children: [
         Container(
@@ -85,7 +85,9 @@ class _ProductPageState extends State<ProductPage> {
               borderRadius: BorderRadius.all(Radius.circular(18))),
           child: Image.network(url),
         ),
-        Text(product.name ?? ""),
+        InkWell(
+          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> Preview(product: product,))),
+          child: Text(product.name ?? "")),
         Text("${product.discount}")
       ],
     );

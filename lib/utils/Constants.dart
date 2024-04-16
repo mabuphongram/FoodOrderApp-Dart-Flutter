@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodmonkey_project/models/Cat.dart';
 import 'package:foodmonkey_project/models/Tag.dart';
+import 'package:foodmonkey_project/models/product.dart';
 
 class Constants {
   static const Color primary = Color(0xFFF6F6F6);
@@ -14,7 +15,7 @@ class Constants {
 
   static const String API_VERSION = "1.0";
 
-  static const String BASE_URL = "http://192.168.1.4:3000";
+  static const String BASE_URL = "http://192.168.1.2:3000";
   static const String API_URL = "$BASE_URL/api";
 
   static String getImageLink(image) {
@@ -22,4 +23,6 @@ class Constants {
   }
   static List<Tag> tags = [];
   static List<Cat> cats = [];
+
+  static List<Product> catProducts = [];
 }
