@@ -21,8 +21,49 @@ class Constants {
   static String getImageLink(image) {
     return image;
   }
+
   static List<Tag> tags = [];
   static List<Cat> cats = [];
 
-  static List<Product> catProducts = [];
+  static List<Product> cartProducts = [];
+
+  static addToCart(product) {
+    bool exist = false;
+    if (cartProducts.length > 0) {
+      cartProducts.forEach((pro) {
+        if (pro.id == product.id) {
+          pro.count++;
+          exist = true;
+        }
+      });
+      if (!exist) {
+      cartProducts.add(product);
+    }
+    }
+     else {
+      cartProducts.add(product);
+    }
+  }
+
+ //remove product
+  static removeProduct(product){
+    cartProducts.removeWhere((pro) => pro.id == product.id);
+  }
+  //add count product
+  static addProductCount(product){
+    cartProducts.forEach((pro) {
+      if(pro.id == product.id){
+        pro.count++;
+      }
+     });
+  }
+  
+  //reduce count product
+  static reduceProduct(product){
+    cartProducts.forEach((pro) { 
+      if(pro.count > 0 ){
+        pro.count--;
+      }
+    });
+  }
 }

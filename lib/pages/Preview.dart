@@ -43,7 +43,7 @@ class _PreviewState extends State<Preview> {
                       color: Colors.red,
                       shape: BoxShape.circle
                     ),
-                    child: Center(child: Text(Constants.catProducts.length.toString())),
+                    child: Center(child: Text(Constants.cartProducts.length.toString())),
                   ),
                 )
               ],
@@ -110,7 +110,7 @@ class _PreviewState extends State<Preview> {
                   ElevatedButton.icon(
                     onPressed: () {
                       setState(() {
-                        Constants.catProducts.add(product?? new Product());
+                       Constants.addToCart(product);
                       });
                     },
                     icon: Icon(Icons

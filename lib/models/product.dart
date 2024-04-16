@@ -1,4 +1,5 @@
 class Product {
+  int count = 1;
   List<dynamic>? images, features, imgcolors, colors;
   int? discount;
   bool? status;
@@ -39,28 +40,26 @@ class Product {
     List<dynamic> features = data['images'] as List;
     List<dynamic> imgcolors = data['images'] as List;
     List<dynamic> colors = data['images'] as List;
-    
 
     return Product(
       images: images,
       features: features,
       imgcolors: imgcolors,
       colors: colors,
-      discount:data['discount'],
-      status:data['status'],
-      id:data['id'],
-      name:data['name'],
-      brand:data['brand'],
-      category:data['category'],
-      subcat:data['subcat'],
-      childcat:data['childcat'],
-      tag:data['tag'],
-      desc:data['desc'],
-      detail:data['detail'],
-      delivery:data['delivery'],
-      warranty:data['warranty'],
-      size:data['size'],
-
+      discount: data['discount'],
+      status: data['status'],
+      id: data['_id'],
+      name: data['name'],
+      brand: data['brand'],
+      category: data['category'],
+      subcat: data['subcat'],
+      childcat: data['childcat'],
+      tag: data['tag'],
+      desc: data['desc'],
+      detail: data['detail'],
+      delivery: data['delivery'],
+      warranty: data['warranty'],
+      size: data['size'],
     );
-  } 
+  }
 }
