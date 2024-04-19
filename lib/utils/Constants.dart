@@ -20,10 +20,18 @@ class Constants {
   static const String BASE_URL = "http://192.168.1.5:3000";
   static const String API_URL = "$BASE_URL/api";
 
+  //normal header without token
   static Map<String,String> headers = {
     "Content-Type":"application/json"
   };
   static User? user;
+  //headers with token
+  //we must add 'Bearer' in front of token
+  static Map<String,String> tokenheaders = {
+  "Content-Type":"application/json",
+  "authorization":"Bearer ${user?.token}"
+  };
+
 
   static String getImageLink(image) {
     return image;
@@ -37,6 +45,32 @@ class Constants {
   static String sampleText =
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. ";
 
+  static generateOrder(){
+       /*
+      {
+        "total":1000,
+        "items":[
+          {
+            "count":2,
+            "productId":"4k490sl9fjwj3fju75932947hi"
+          },
+          {
+            "count":5,
+            "productId":"ht7df9e4wj3fju75932947hi"
+          }
+        ]
+      }
+       */
+    List<Map> cartList= [];
+    cartProducts.forEach((prod) {
+      var map = new Map();
+      map['count']=prod.count.toString();
+      map['productId']=prod.id;
+      cartList.add(map);
+     });
+     return cartList;
+  }
+  
   static addToCart(product) {
     bool exist = false;
     if (cartProducts.length > 0) {

@@ -61,10 +61,18 @@ class Api {
   static Future<bool> registerUser({name,phone,password}) async{
     Uri uri= Uri.parse("${Constants.BASE_URL}/user/register");
     var json = jsonEncode({"name":name,"phone":phone,
-    "email":"email@email.com","password":password});
+    "email":"$name.com","password":password});
     var resStr = await http.post(uri,body: json,headers: Constants.headers);
     var responseData = jsonDecode(resStr.body);
     return responseData['con'];
   }
   
+  static Future<bool> uploadOrder({total,items}) async{
+    var json = jsonEncode({"total":total,"items":items});
+     Uri uri= Uri.parse("http://localhost:3000/api/order");
+     var response = await http.post(uri,body:json,headers: Constants.tokenheaders );
+     var responseData = jsonDecode(response.body);
+     print(responseData);
+    return true;
+  }
 }

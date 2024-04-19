@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodmonkey_project/models/product.dart';
 import 'package:foodmonkey_project/pages/Login.dart';
+import 'package:foodmonkey_project/utils/Api.dart';
 import 'package:foodmonkey_project/utils/Constants.dart';
 
 class Cart extends StatefulWidget {
@@ -58,14 +59,24 @@ class _CartState extends State<Cart> {
                   height: 20,
                 ),
                 ElevatedButton.icon(
-                  onPressed: () {
+                  onPressed: ()async {
                    if( Constants.user == null){
                      setState(() {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => Login()));
                     });
                    } else {
-                    print('Uploaded order');
+                    //upload order
+                    bool bol = await Api.uploadOrder(
+                      total: Constants.getTotalCart(),
+                      items:  Constants.generateOrder()
+                    );
+                  //if order is successful, go to home page
+                    if(bol) {
+                      //clear cartProduct
+                      Constants.cartProducts = [];
+                      Navigator.pushNamed(context, '/home');
+                    }
                    }
                   },
                   icon: Icon(
