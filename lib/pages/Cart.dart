@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodmonkey_project/models/product.dart';
+import 'package:foodmonkey_project/pages/Login.dart';
 import 'package:foodmonkey_project/utils/Constants.dart';
 
 class Cart extends StatefulWidget {
@@ -31,29 +32,52 @@ class _CartState extends State<Cart> {
                 borderRadius: BorderRadius.only(
                     topRight: Radius.circular(20),
                     topLeft: Radius.circular(20))),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text('Sub Total : ',style: TextStyle(color: Constants.primary,fontSize: 30,fontWeight: FontWeight.bold),),
-                          Text("${Constants.getTotalCart()} Ks",style: TextStyle(color: Constants.normal,fontSize: 30,fontWeight: FontWeight.bold),)
-                        ],
-                      ),
-                      SizedBox(height: 20,),
-                        ElevatedButton.icon(
-                          
-                      onPressed: () {
-                        setState(() {
-                        
-                        });
-                      },
-                      icon: Icon(Icons
-                          .shopping_cart,), // Replace Icons.add with your desired icon
-                      label: Text('Order Now',style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Sub Total : ',
+                      style: TextStyle(
+                          color: Constants.primary,
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold),
                     ),
-                    ],),
+                    Text(
+                      "${Constants.getTotalCart()} Ks",
+                      style: TextStyle(
+                          color: Constants.normal,
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                ElevatedButton.icon(
+                  onPressed: () {
+                   if( Constants.user == null){
+                     setState(() {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Login()));
+                    });
+                   } else {
+                    print('Uploaded order');
+                   }
+                  },
+                  icon: Icon(
+                    Icons.shopping_cart,
+                  ), // Replace Icons.add with your desired icon
+                  label: Text(
+                    'Order Now',
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ],
+            ),
           )
         ],
       ),
@@ -74,8 +98,7 @@ class _CartState extends State<Cart> {
             child: InkWell(
               onTap: () {
                 setState(() {
-                Constants.removeProduct(product);
-
+                  Constants.removeProduct(product);
                 });
               },
               child: Container(
@@ -121,8 +144,12 @@ class _CartState extends State<Cart> {
                                 style: TextStyle(
                                     color: Constants.normal, fontSize: 16),
                                 children: [
-                                  TextSpan(text: "Price : ${product.price?? 0} Ks\n"),
-                                  TextSpan(text: "Total : ${(product.price ?? 0 )* product.count} Ks"),
+                                  TextSpan(
+                                      text:
+                                          "Price : ${product.price ?? 0} Ks\n"),
+                                  TextSpan(
+                                      text:
+                                          "Total : ${(product.price ?? 0) * product.count} Ks"),
                                 ]),
                           ),
                           SizedBox(

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:foodmonkey_project/models/Cat.dart';
 import 'package:foodmonkey_project/models/Tag.dart';
+import 'package:foodmonkey_project/models/User.dart';
 import 'package:foodmonkey_project/models/product.dart';
 import 'package:foodmonkey_project/utils/Constants.dart';
 import 'package:http/http.dart' as http;
@@ -46,4 +47,24 @@ class Api {
     }
     return products;
   }
+
+  static Future<bool> loginUser({phone,password}) async{
+    Uri uri= Uri.parse("${Constants.BASE_URL}/user");
+    var json = jsonEncode({"phone":phone,"password":password});
+    var resStr = await http.post(uri,body: json,headers: Constants.headers);
+    var responseData = jsonDecode(resStr.body);
+    var userData = responseData['result'];
+    print(userData);
+   Constants.user = User.fromJson(userData);
+    return responseData['con'];
+  }
+  static Future<bool> registerUser({name,phone,password}) async{
+    Uri uri= Uri.parse("${Constants.BASE_URL}/user/register");
+    var json = jsonEncode({"name":name,"phone":phone,
+    "email":"email@email.com","password":password});
+    var resStr = await http.post(uri,body: json,headers: Constants.headers);
+    var responseData = jsonDecode(resStr.body);
+    return responseData['con'];
+  }
+  
 }

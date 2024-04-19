@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodmonkey_project/models/Cat.dart';
 import 'package:foodmonkey_project/models/Tag.dart';
+import 'package:foodmonkey_project/models/User.dart';
 import 'package:foodmonkey_project/models/product.dart';
 import 'package:foodmonkey_project/pages/Cart.dart';
 
@@ -18,6 +19,11 @@ class Constants {
 
   static const String BASE_URL = "http://192.168.1.5:3000";
   static const String API_URL = "$BASE_URL/api";
+
+  static Map<String,String> headers = {
+    "Content-Type":"application/json"
+  };
+  static User? user;
 
   static String getImageLink(image) {
     return image;
