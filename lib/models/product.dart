@@ -1,7 +1,7 @@
 class Product {
   int count = 1;
   List<dynamic>? images, features, imgcolors, colors;
-  int? discount;
+  int? discount,price;
   bool? status;
   String? id,
       name,
@@ -25,6 +25,7 @@ class Product {
       this.id,
       this.name,
       this.brand,
+      this.price,
       this.category,
       this.subcat,
       this.childcat,
@@ -51,6 +52,7 @@ class Product {
       id: data['_id'],
       name: data['name'],
       brand: data['brand'],
+      price:data['price'],
       category: data['category'],
       subcat: data['subcat'],
       childcat: data['childcat'],

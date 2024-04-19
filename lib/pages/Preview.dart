@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_view/flutter_swiper_view.dart';
 import 'package:foodmonkey_project/models/product.dart';
+import 'package:foodmonkey_project/pages/Detail.dart';
 import 'package:foodmonkey_project/utils/Constants.dart';
 import 'dart:math' as math;
 
@@ -23,113 +24,90 @@ class _PreviewState extends State<Preview> {
         backgroundColor: Colors.blue,
         title: Text('Preview'),
         actions: [
-          Padding(
-            padding: const EdgeInsets.only(top: 10,right: 20),
-            child: Stack(
-              //another way to make overflow visible
-              clipBehavior: Clip.none,
-              children: [
-                Icon(
-                  Icons.shopping_cart,
-                  size: 40,
-                  color: Constants.primary,),
-                Positioned(
-                  right: 0,
-                  top: -5,
-                  child: Container(
-                    width: 20,
-                    height: 20,
-                    decoration: BoxDecoration(
-                      color: Colors.red,
-                      shape: BoxShape.circle
-                    ),
-                    child: Center(child: Text(Constants.cartProducts.length.toString())),
-                  ),
-                )
-              ],
-            ),
-          )
+          Constants.getCart(context,Constants.accent)
         ],
         ),
-      body: Stack(
-        children: [
-          CustomPaint(
-            painter: ArcPainter(mSize),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                child: Text(
-                  product?.name ?? "",
-                  style: TextStyle(
-                      color: Constants.normal,
-                      fontSize: 35,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
-              Container(
-                height: 150,
-                child: Swiper(
-                  index: 0,
-                  itemCount: product?.images?.length ?? 0,
-                  itemBuilder: (context, index) {
-                    var url = product?.images?[index];
-                    url = url.replaceAll(
-                        'http://192.168.8.104:3000/', 'http://localhost:3000/');
-
-                    return Image.network(
-                      url ?? "",
-                      fit: BoxFit.contain,
-                    );
-                  },
-                  // autoplay: true,
-                  scrollDirection: Axis.horizontal,
-                  pagination:
-                      SwiperPagination(alignment: Alignment.centerRight),
-                  control: SwiperControl(),
-                ),
-              ),
-              _buildRichText('Price', '\t\t\t\t\t3500 Ks'),
-              SizedBox(
-                height: 20,
-              ),
-              _buildRichText('Size', '\t\t\t\t\tLarge Size'),
-              SizedBox(
-                height: 20,
-              ),
-              _buildRichText('Promo', '\t\t\t\t\tCoca Cola'),
-              SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  ElevatedButton.icon(
-                    onPressed: () {
-                      setState(() {
-                       Constants.addToCart(product);
-                      });
-                    },
-                    icon: Icon(Icons
-                        .shopping_cart), // Replace Icons.add with your desired icon
-                    label: Text('Buy Now'),
+      body: SingleChildScrollView(
+        child: Stack(
+          children: [
+            CustomPaint(
+              painter: ArcPainter(mSize),
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: Text(
+                    product?.name ?? "",
+                    style: TextStyle(
+                        color: Constants.normal,
+                        fontSize: 35,
+                        fontWeight: FontWeight.bold),
                   ),
-                  ElevatedButton.icon(
-                    onPressed: () {
-                      // Add your onPressed logic here
+                ),
+                Container(
+                  height: 150,
+                  child: Swiper(
+                    index: 0,
+                    itemCount: product?.images?.length ?? 0,
+                    itemBuilder: (context, index) {
+                      var url = product?.images?[index];
+                      url = url.replaceAll(
+                          'http://192.168.8.104:3000/', 'http://localhost:3000/');
+        
+                      return Image.network(
+                        url ?? "",
+                        fit: BoxFit.contain,
+                      );
                     },
-                    icon: Icon(Icons
-                        .details), // Replace Icons.add with your desired icon
-                    label: Text('Detail'),
+                    // autoplay: true,
+                    scrollDirection: Axis.horizontal,
+                    pagination:
+                        SwiperPagination(alignment: Alignment.centerRight),
+                    control: SwiperControl(),
                   ),
-                ],
-              )
-            ],
-          )
-        ],
+                ),
+               _buildRichText("Price", '\t\t\t\t\t${product?.price} Ks'),
+                SizedBox(
+                  height: 20,
+                ),
+                _buildRichText("Size", '\t\t\t\t\t${product?.size}'),
+                SizedBox(
+                  height: 20,
+                ),
+                _buildRichText('Promo', '\t\t\t\t\tCoca Cola'),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        setState(() {
+                         Constants.addToCart(product);
+                        });
+                      },
+                      icon: Icon(Icons
+                          .shopping_cart), // Replace Icons.add with your desired icon
+                      label: Text('Buy Now'),
+                    ),
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=> Detail(product: product,)));
+                      },
+                      icon: Icon(Icons
+                          .more_horiz), // Replace Icons.add with your desired icon
+                      label: Text('Detail'),
+                    ),
+                  ],
+                )
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
